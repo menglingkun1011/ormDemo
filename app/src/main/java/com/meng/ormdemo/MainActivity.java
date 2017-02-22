@@ -34,21 +34,33 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Dao<UserInfo, Integer> dao = new MySqliteOpenHelper(MainActivity.this).getDao(UserInfo.class);
 
-                    UserInfo userInfo = new UserInfo();
-                    userInfo.setName("孟先生");
-                    userInfo.setAddress("河南漯河");
-                    userInfo.setSex(23);
-
-                    dao.create(userInfo);
-
+//                    addQuery(dao);
+//                    updateQuery(dao);
+                    dao.deleteById(1);
                     List<UserInfo> userInfos = dao.queryForAll();
                     Log.d(TAG,"集合长度："+userInfos.size());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-
-
             }
         });
+    }
+
+    private void updateQuery(Dao<UserInfo, Integer> dao) throws SQLException {
+        UserInfo userInfo = dao.queryForId(1);
+        userInfo.setName("乾坤");
+        dao.update(userInfo);
+        List<UserInfo> userInfos = dao.queryForAll();
+        Log.d(TAG,"集合长度："+userInfos.size());
+    }
+
+    private void addQuery(Dao<UserInfo, Integer> dao) throws SQLException {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setName("孟先生");
+        userInfo.setAddress("河南漯河");
+        userInfo.setSex(23);
+        dao.create(userInfo);
+        List<UserInfo> userInfos = dao.queryForAll();
+        Log.d(TAG,"集合长度："+userInfos.size());
     }
 }
